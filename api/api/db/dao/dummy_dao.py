@@ -11,7 +11,7 @@ from api.db.models.dummy_model import DummyModel
 class DummyDAO:
     """Class for accessing dummy table."""
 
-    def __init__(self, session: AsyncSession = Depends(get_db_session)) -> None:
+    def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
 
     async def create_dummy_model(self, name: str) -> None:
@@ -36,7 +36,10 @@ class DummyDAO:
 
         return list(raw_dummies.scalars().fetchall())
 
-    async def filter(self, name: Optional[str] = None) -> List[DummyModel]:
+    async def filter(
+        self,
+        name: Optional[str] = None,
+    ) -> List[DummyModel]:
         """
         Get specific dummy model.
 

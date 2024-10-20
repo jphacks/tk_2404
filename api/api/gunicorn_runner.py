@@ -5,9 +5,9 @@ from gunicorn.util import import_app
 from uvicorn.workers import UvicornWorker as BaseUvicornWorker
 
 try:
-    import uvloop  # (Found nested import)
+    import uvloop  # noqa: WPS433 (Found nested import)
 except ImportError:
-    uvloop = None  # type: ignore  # (variables overlap)
+    uvloop = None  # type: ignore  # noqa: WPS440 (variables overlap)
 
 
 class UvicornWorker(BaseUvicornWorker):
@@ -19,7 +19,7 @@ class UvicornWorker(BaseUvicornWorker):
     to pass these parameters through gunicorn.
     """
 
-    CONFIG_KWARGS: dict[str, Any] = {  # typing: ignore  # noqa: RUF012
+    CONFIG_KWARGS = {  # noqa: WPS115 (upper-case constant in a class)
         "loop": "uvloop" if uvloop is not None else "asyncio",
         "http": "httptools",
         "lifespan": "on",
@@ -36,14 +36,14 @@ class GunicornApplication(BaseApplication):
     with custom uvicorn workers.
     """
 
-    def __init__(  # (Too many args)
+    def __init__(  # noqa: WPS211 (Too many args)
         self,
         app: str,
         host: str,
         port: int,
         workers: int,
         **kwargs: Any,
-    ) -> None:
+    ):
         self.options = {
             "bind": f"{host}:{port}",
             "workers": workers,

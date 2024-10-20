@@ -1,5 +1,4 @@
 """api models."""
-
 import pkgutil
 from pathlib import Path
 
@@ -12,4 +11,4 @@ def load_all_models() -> None:
         prefix="api.db.models.",
     )
     for module in modules:
-        __import__(module.name)
+        __import__(module.name)  # noqa: WPS421
