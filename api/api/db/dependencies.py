@@ -16,7 +16,7 @@ async def get_db_session(
     """
     session: AsyncSession = request.app.state.db_session_factory()
 
-    try:
+    try:  # noqa: WPS501
         yield session
     finally:
         await session.commit()

@@ -1,12 +1,9 @@
 import taskiq_fastapi
-from taskiq import AsyncBroker, InMemoryBroker
-from taskiq_aio_pika import AioPikaBroker
+from taskiq import InMemoryBroker, ZeroMQBroker
 
 from api.settings import settings
 
-broker: AsyncBroker = AioPikaBroker(
-    str(settings.rabbit_url),
-)
+broker = ZeroMQBroker()
 
 if settings.environment.lower() == "pytest":
     broker = InMemoryBroker()

@@ -18,10 +18,14 @@ async def test_creation(
     """Tests dummy instance creation."""
     url = fastapi_app.url_path_for("create_dummy_model")
     test_name = uuid.uuid4().hex
-    response = await client.put(url, json={"name": test_name})
+    response = await client.put(
+        url,
+        json={
+            "name": test_name,
+        },
+    )
     assert response.status_code == status.HTTP_200_OK
     dao = DummyDAO(dbsession)
-
     instances = await dao.filter(name=test_name)
     assert instances[0].name == test_name
 

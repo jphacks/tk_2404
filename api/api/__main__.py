@@ -19,7 +19,7 @@ def main() -> None:
     else:
         # We choose gunicorn only if reload
         # option is not used, because reload
-        # feature doesn't work with gunicorn workers.
+        # feature doen't work with Uvicorn workers.
         GunicornApplication(
             "api.web.application:get_app",
             host=settings.host,
@@ -28,7 +28,7 @@ def main() -> None:
             factory=True,
             accesslog="-",
             loglevel=settings.log_level.value.lower(),
-            access_log_format='%r "-" %s "-" %Tf',
+            access_log_format='%r "-" %s "-" %Tf',  # noqa: WPS323
         ).run()
 
 

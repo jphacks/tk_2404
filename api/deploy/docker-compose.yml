@@ -1,16 +1,17 @@
+version: '3.9'
+
 services:
   api: &main_app
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./deploy/Dockerfile
+      target: prod
     image: api:${API_VERSION:-latest}
     restart: always
     env_file:
-      - .env
+    - .env
     depends_on:
       db:
-        condition: service_healthy
-      rmq:
         condition: service_healthy
     environment:
       API_HOST: 0.0.0.0
@@ -19,25 +20,24 @@ services:
       API_DB_USER: api
       API_DB_PASS: api
       API_DB_BASE: api
-      API_RABBIT_HOST: api-rmq
 
   taskiq-worker:
     <<: *main_app
     labels: []
     command:
-      - taskiq
-      - worker
-      - api.tkq:broker
+    - taskiq
+    - worker
+    - api.tkq:broker
 
   db:
-    image: postgres:16.3-bullseye
+    image: postgres:13.8-bullseye
     hostname: api-db
     environment:
       POSTGRES_PASSWORD: "api"
       POSTGRES_USER: "api"
       POSTGRES_DB: "api"
     volumes:
-      - api-db-data:/var/lib/postgresql/data
+    - api-db-data:/var/lib/postgresql/data
     restart: always
     healthcheck:
       test: pg_isready -U api
@@ -58,20 +58,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
-  rmq:
-    image: rabbitmq:3.9.16-alpine
-    hostname: "api-rmq"
-    restart: always
-    environment:
-      RABBITMQ_DEFAULT_USER: "guest"
-      RABBITMQ_DEFAULT_PASS: "guest"
-      RABBITMQ_DEFAULT_VHOST: "/"
-    healthcheck:
-      test: rabbitmq-diagnostics check_running -q
-      interval: 3s
-      timeout: 3s
-      retries: 50
 
 
 

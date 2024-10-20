@@ -8,7 +8,7 @@ from yarl import URL
 TEMP_DIR = Path(gettempdir())
 
 
-class LogLevel(str, enum.Enum):
+class LogLevel(str, enum.Enum):  # noqa: WPS600
     """Possible log levels."""
 
     NOTSET = "NOTSET"
@@ -43,18 +43,8 @@ class Settings(BaseSettings):
     db_port: int = 5432
     db_user: str = "api"
     db_pass: str = "api"
-    db_base: str = "admin"
+    db_base: str = "api"
     db_echo: bool = False
-
-    # Variables for RabbitMQ
-    rabbit_host: str = "api-rmq"
-    rabbit_port: int = 5672
-    rabbit_user: str = "guest"
-    rabbit_pass: str = "guest"
-    rabbit_vhost: str = "/"
-
-    rabbit_pool_size: int = 2
-    rabbit_channel_pool_size: int = 10
 
     @property
     def db_url(self) -> URL:
@@ -70,22 +60,6 @@ class Settings(BaseSettings):
             user=self.db_user,
             password=self.db_pass,
             path=f"/{self.db_base}",
-        )
-
-    @property
-    def rabbit_url(self) -> URL:
-        """
-        Assemble RabbitMQ URL from settings.
-
-        :return: rabbit URL.
-        """
-        return URL.build(
-            scheme="amqp",
-            host=self.rabbit_host,
-            port=self.rabbit_port,
-            user=self.rabbit_user,
-            password=self.rabbit_pass,
-            path=self.rabbit_vhost,
         )
 
     model_config = SettingsConfigDict(

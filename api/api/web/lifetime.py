@@ -1,10 +1,8 @@
-from contextlib import asynccontextmanager
-from typing import AsyncGenerator
+from typing import Awaitable, Callable
 
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from api.services.rabbit.lifespan import init_rabbit, shutdown_rabbit
 from api.settings import settings
 from api.tkq import broker
 
@@ -28,10 +26,9 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
     app.state.db_session_factory = session_factory
 
 
-@asynccontextmanager
-async def lifespan_setup(
+def register_startup_event(
     app: FastAPI,
-) -> AsyncGenerator[None, None]:  # pragma: no cover
+) -> Callable[[], Awaitable[None]]:  # pragma: no cover
     """
     Actions to run on application startup.
 
@@ -42,16 +39,34 @@ async def lifespan_setup(
     :return: function that actually performs actions.
     """
 
-    app.middleware_stack = None
-    if not broker.is_worker_process:
-        await broker.startup()
-    _setup_db(app)
-    init_rabbit(app)
-    app.middleware_stack = app.build_middleware_stack()
+    @app.on_event("startup")
+    async def _startup() -> None:  # noqa: WPS430
+        app.middleware_stack = None
+        if not broker.is_worker_process:
+            await broker.startup()
+        _setup_db(app)
+        app.middleware_stack = app.build_middleware_stack()
+        pass  # noqa: WPS420
 
-    yield
-    if not broker.is_worker_process:
-        await broker.shutdown()
-    await app.state.db_engine.dispose()
+    return _startup
 
-    await shutdown_rabbit(app)
+
+def register_shutdown_event(
+    app: FastAPI,
+) -> Callable[[], Awaitable[None]]:  # pragma: no cover
+    """
+    Actions to run on application's shutdown.
+
+    :param app: fastAPI application.
+    :return: function that actually performs actions.
+    """
+
+    @app.on_event("shutdown")
+    async def _shutdown() -> None:  # noqa: WPS430
+        if not broker.is_worker_process:
+            await broker.shutdown()
+        await app.state.db_engine.dispose()
+
+        pass  # noqa: WPS420
+
+    return _shutdown

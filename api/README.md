@@ -25,14 +25,14 @@ You can read more about poetry here: https://python-poetry.org/
 You can start the project with docker using this command:
 
 ```bash
-docker-compose up --build
+docker-compose -f deploy/docker-compose.yml --project-directory . up --build
 ```
 
-If you want to develop in docker with autoreload and exposed ports add `-f deploy/docker-compose.dev.yml` to your docker command.
+If you want to develop in docker with autoreload add `-f deploy/docker-compose.dev.yml` to your docker command.
 Like this:
 
 ```bash
-docker-compose -f docker-compose.yml -f deploy/docker-compose.dev.yml --project-directory . up --build
+docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.dev.yml --project-directory . up --build
 ```
 
 This command exposes the web application on port 8000, mounts current directory and enables autoreload.
@@ -40,7 +40,7 @@ This command exposes the web application on port 8000, mounts current directory 
 But you have to rebuild image every time you modify `poetry.lock` or `pyproject.toml` with this command:
 
 ```bash
-docker-compose build
+docker-compose -f deploy/docker-compose.yml --project-directory . build
 ```
 
 ## Project structure
@@ -61,7 +61,7 @@ api
     ├── api  # Package with all handlers.
     │   └── router.py  # Main router.
     ├── application.py  # FastAPI application configuration.
-    └── lifespan.py  # Contains actions to perform on startup and shutdown.
+    └── lifetime.py  # Contains actions to perform on startup and shutdown.
 ```
 
 ## Configuration
@@ -69,12 +69,12 @@ api
 This application can be configured with environment variables.
 
 You can create `.env` file in the root directory and place all
-environment variables here. 
+environment variables here.
 
 All environment variables should start with "API_" prefix.
 
 For example if you see in your "api/settings.py" a variable named like
-`random_parameter`, you should provide the "API_RANDOM_PARAMETER" 
+`random_parameter`, you should provide the "API_RANDOM_PARAMETER"
 variable to configure the value. This behaviour can be changed by overriding `env_prefix` property
 in `api.settings.Settings.Config`.
 
@@ -100,7 +100,8 @@ It's configured using .pre-commit-config.yaml file.
 By default it runs:
 * black (formats your code);
 * mypy (validates types);
-* ruff (spots possible bugs);
+* isort (sorts imports in all files);
+* flake8 (spots possible bugs);
 
 
 You can read more about pre-commit here: https://pre-commit.com/
@@ -144,8 +145,8 @@ alembic revision
 If you want to run it in docker, simply run:
 
 ```bash
-docker-compose run --build --rm api pytest -vv .
-docker-compose down
+docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.dev.yml --project-directory . run --build --rm api pytest -vv .
+docker-compose -f deploy/docker-compose.yml -f deploy/docker-compose.dev.yml --project-directory . down
 ```
 
 For running tests on your local machine.
@@ -153,7 +154,7 @@ For running tests on your local machine.
 
 I prefer doing it with docker:
 ```
-docker run -p "5432:5432" -e "POSTGRES_PASSWORD=api" -e "POSTGRES_USER=api" -e "POSTGRES_DB=api" postgres:16.3-bullseye
+docker run -p "5432:5432" -e "POSTGRES_PASSWORD=api" -e "POSTGRES_USER=api" -e "POSTGRES_DB=api" postgres:13.8-bullseye
 ```
 
 
