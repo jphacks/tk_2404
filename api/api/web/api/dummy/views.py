@@ -1,8 +1,9 @@
 from typing import List
 
+from api.dependencies.auth import with_authentication
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
-
+from loguru import logger
 from api.db.dao.dummy_dao import DummyDAO
 from api.db.models.dummy_model import DummyModel
 from api.web.api.dummy.schema import DummyModelDTO, DummyModelInputDTO
@@ -39,3 +40,13 @@ async def create_dummy_model(
     :param dummy_dao: DAO for dummy models.
     """
     await dummy_dao.create_dummy_model(name=new_dummy_object.name)
+
+@router.get("/test")
+async def test_router(
+    uid: str = Depends(with_authentication)
+):
+    """
+    Test API endpoint.
+    """
+    logger.info("user_id: {}", uid)
+    return {"message": "Test router works"}
