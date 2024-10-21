@@ -1,0 +1,77 @@
+{
+  "folders": [
+    {
+      "name": "flutter",
+      "path": "./app"
+    },
+    {
+      "name": "api",
+      "path": "./api"
+    },
+    {
+      "name": "root",
+      "path": "."
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "editorconfig.editorconfig",
+      "ms-python.python",
+      "ms-python.debugpy",
+      "zeshuaro.vscode-python-poetry",
+      "mhutchie.git-graph",
+      "eamodio.gitlens",
+      "esbenp.prettier-vscode",
+      "ms-python.black-formatter",
+      "Dart-Code.flutter",
+      "alexisvt.flutter-snippets",
+      "Dart-Code.dart-code",
+      "oscarcs.dart-syntax-highlighting-only",
+      "DiemasMichiels.emulate",
+      "ms-vsliveshare.vsliveshare",
+      "ms-vscode.makefile-tools"
+    ],
+    "unwantedRecommendations": ["ms-python.mypy-type-checker", "matangover.mypy"]
+  },
+  "settings": {
+    "search.exclude": {
+      "**/*.code-search": true,
+      "/dist": true,
+      "/*/*/dist": true,
+      "**/.venv": true,
+      "**/*.freezed.dart": true,
+      "**/*.g.dart": true,
+      "**/.dart_tool": true,
+      "**/.fvm": true
+    },
+    "python.terminal.activateEnvironment": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "standard",
+    "python.analysis.diagnosticMode": "workspace",
+    "terminal.integrated.env.windows": {
+      "PATH": "./api/.venv/bin/python3;${env:PATH}"
+    },
+    "python.defaultInterpreterPath": "./api/.venv/bin/python3",
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter"
+    }
+  }
+}
