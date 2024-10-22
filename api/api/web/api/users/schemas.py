@@ -1,21 +1,21 @@
-from fastapi.param_functions import Depends
-from api.dependencies.auth import with_authentication
+from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel, Field
 
 class UserBase(BaseModel):
-    uid: str = Depends(with_authentication)
+    pass
 
 class UserCreate(UserBase):
     name:str = Field(max_length=16, example="江無田はる")
-    email:str = Field(max_length=16, example="example@example.com")
-    age:int
-    gender:int = Field(ge=0,lt=10)
+    age:int = Field(example=18)
+    gender:int = Field(ge=0,lt=10, example=1)
     listen_genre_id:int = 0
 
 class UserCreateResponse(UserCreate):
     id: int
-    created_at: str
-    updated_at: str
+    uid: str = Field(max_length=128)
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
