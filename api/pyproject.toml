@@ -27,6 +27,7 @@ loguru = "^0.7.0"
 taskiq = "^0"
 taskiq-fastapi = "^0"
 pyzmq = "^25"
+firebase-admin = "^6.5.0"
 
 
 [tool.poetry.dev-dependencies]

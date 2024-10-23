@@ -18,7 +18,7 @@ services:
     environment:
       API_RELOAD: True
       API_HOST: 0.0.0.0
-      API_DB_HOST: api-db
+      API_DB_HOST: db
       API_DB_PORT: 5432
       API_DB_USER: api
       API_DB_PASS: api
@@ -26,13 +26,15 @@ services:
 
   db:
     image: postgres:13.8-bullseye
-    hostname: api-db
+    hostname: db
     environment:
       POSTGRES_PASSWORD: api
       POSTGRES_USER: api
       POSTGRES_DB: api
+    ports:
+      - "5432:5432"
     volumes:
-    - api-db-data:/var/lib/postgresql/data
+      - api-db-data:/var/lib/postgresql/data
     restart: always
     healthcheck:
       test: pg_isready -U api
@@ -45,7 +47,7 @@ services:
     restart: "no"
     command: alembic upgrade head
     environment:
-      API_DB_HOST: api-db
+      API_DB_HOST: db
       API_DB_PORT: 5432
       API_DB_USER: api
       API_DB_PASS: api
@@ -53,7 +55,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
 
 volumes:
   api-db-data:
