@@ -40,13 +40,3 @@ async def create_dummy_model(
     :param dummy_dao: DAO for dummy models.
     """
     await dummy_dao.create_dummy_model(name=new_dummy_object.name)
-
-@router.get("/test")
-async def test_router(
-    uid: str = Depends(with_authentication)
-):
-    """
-    Test API endpoint.
-    """
-    logger.info("user_id: {}", uid)
-    return {"message": "Test router works"}
