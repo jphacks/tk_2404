@@ -13,8 +13,8 @@ class UserProfile(UserBase):
     age: Optional[int] = Field(example=18)
     gender: Optional[int] = Field(ge=0, lt=10, example=1)
     listen_genre_id: Optional[int] = 0
-    live_area: Optional[str] = Field(max_length=32, example="東京")
-    profile_text: Optional[str] = Field(max_length=64, example="Hello World")
+    home_location: Optional[str] = Field(max_length=32, example="東京")
+    bio: Optional[str] = Field(max_length=64, example="Hello World")
 
 
 class UserInfo(UserProfile):
