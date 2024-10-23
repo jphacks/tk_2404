@@ -1,3 +1,5 @@
+from api.db.models.user_model import UserModel
+from api.db.dao.user_dao import UserDao
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import Depends, HTTPException, status
 from firebase_admin import auth, credentials
@@ -9,9 +11,10 @@ cred = credentials.Certificate('./firebase_admin_account_key.json')
 firebase_admin.initialize_app(cred)
 
 
-def with_authentication(
-    cred: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False))
-):
+async def with_authentication(
+    cred: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False)),
+    user_db: UserDao = Depends()
+) -> UserModel:
     if not cred:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -50,7 +53,18 @@ def with_authentication(
             headers={"WWW-Authenticate": "Bearer"}
         )
 
-    user = auth.get_user(uid)
-    logger.info('Successfully fetched user data:\n{0}'.format(user._data))
+    firebase_user = auth.get_user(uid)._data
+    logger.info('Successfully fetched user data:\n{0}'.format(firebase_user))
 
-    return uid
+    user = await user_db.get(uid)
+
+    if user is None:
+        user = await user_db.create(
+            uid=uid,
+            email=firebase_user["email"],
+            emailVerified=firebase_user["emailVerified"]
+        )
+    
+    logger.info('user : {0}'.format(user))
+
+    return user
