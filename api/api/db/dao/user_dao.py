@@ -20,6 +20,8 @@ class UserDao:
         age:Optional[int] = None,
         gender:Optional[int] = None,
         listen_genre_id:Optional[int] = None,
+        home_location:Optional[str] = None,
+        bio:Optional[str] = None,
         email:Optional[str] = None,
         emailVerified:Optional[bool] = None
     )->UserModel:
@@ -35,6 +37,8 @@ class UserDao:
             age = age,
             gender = gender,
             listen_genre_id = listen_genre_id,
+            home_location = home_location,
+            bio = bio,
             email = email,
             emailVerified = emailVerified
         )
@@ -54,6 +58,6 @@ class UserDao:
         """
 
         user = await self.session.get(UserModel, uid)
-        logger.info(f"get method:{user}")
+
         return user
     

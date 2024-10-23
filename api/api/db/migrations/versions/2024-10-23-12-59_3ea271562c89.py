@@ -1,15 +1,15 @@
 """Add users table
 
-Revision ID: bb00a915edc8
+Revision ID: 3ea271562c89
 Revises: 
-Create Date: 2024-10-23 08:42:04.267573
+Create Date: 2024-10-23 12:59:11.842624
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "bb00a915edc8"
+revision = "3ea271562c89"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,6 +32,8 @@ def upgrade() -> None:
         sa.Column("age", sa.Integer(), nullable=True),
         sa.Column("gender", sa.Integer(), nullable=True),
         sa.Column("listen_genre_id", sa.Integer(), nullable=True),
+        sa.Column("home_location", sa.String(length=32), nullable=True),
+        sa.Column("bio", sa.String(length=64), nullable=True),
         sa.Column("email", sa.String(), nullable=False),
         sa.Column("emailVerified", sa.Boolean(), nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
