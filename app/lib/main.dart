@@ -1,7 +1,9 @@
 import 'package:app/firebase_options.dart';
 import 'package:app/routers.dart';
+import 'package:app/view_models/login_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,13 +18,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: routers,
-      theme: ThemeData.light().copyWith(
-        materialTapTargetSize: MaterialTapTargetSize.padded,
-      ),
-      darkTheme: ThemeData.dark().copyWith(
-        materialTapTargetSize: MaterialTapTargetSize.padded,
+    return ChangeNotifierProvider(
+      create: (_) => LoginViewModel(),
+      child: MaterialApp.router(
+        routerConfig: routers,
+        theme: ThemeData.light().copyWith(
+          materialTapTargetSize: MaterialTapTargetSize.padded,
+        ),
+        darkTheme: ThemeData.dark().copyWith(
+          materialTapTargetSize: MaterialTapTargetSize.padded,
+        ),
       ),
     );
   }
