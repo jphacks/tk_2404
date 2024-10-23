@@ -9,12 +9,17 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginViewModel = Provider.of<LoginViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Welcome!'),
+          // Display user information
+          Text(
+            'Welcome, ${loginViewModel.user?.email ?? "User"}!',
+            style: const TextStyle(fontSize: 24),
+          ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {

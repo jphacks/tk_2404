@@ -8,9 +8,11 @@ class LoginViewModel extends ChangeNotifier {
 
   String _errorMessage = '';
   bool _isLoggedIn = false;
+  User? _user; // Add this property to hold the user information
 
   String get errorMessage => _errorMessage;
   bool get isLoggedIn => _isLoggedIn;
+  User? get user => _user; // Expose the user property
 
   LoginViewModel() {
     _checkLoginStatus();
@@ -18,6 +20,7 @@ class LoginViewModel extends ChangeNotifier {
 
   void _checkLoginStatus() {
     _auth.authStateChanges().listen((User? user) {
+      _user = user; // Update user property
       _isLoggedIn = user != null;
       notifyListeners();
     });
@@ -30,7 +33,8 @@ class LoginViewModel extends ChangeNotifier {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      _isLoggedIn = userCredential.user != null;
+      _user = userCredential.user; // Set the user property
+      _isLoggedIn = _user != null;
       _errorMessage = '';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -48,6 +52,7 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> logout() async {
     await _auth.signOut();
+    _user = null; // Clear user information on logout
     _isLoggedIn = false;
     notifyListeners();
   }
