@@ -54,6 +54,6 @@ class UserDao:
         """
 
         user = await self.session.get(UserModel, uid)
-
+        logger.info(f"get method:{user}")
         return user
     

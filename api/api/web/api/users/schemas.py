@@ -15,10 +15,10 @@ class UserCreate(UserBase):
 
 
 class UserInfo(UserCreate):
-    # id: int
     uid: str = Field(max_length=128)
     email: str = Field(example="example@exampl.com")
     emailVerified: bool
+    # TODO : 設定が完了しているか判別するパラメータをつける
     # is_initialid: bool
     created_at: datetime
     updated_at: datetime

@@ -54,7 +54,7 @@ async def with_authentication(
         )
 
     firebase_user = auth.get_user(uid)._data
-    logger.info('Successfully fetched user data:\n{0}'.format(firebase_user))
+    logger.info('Successfully fetched user id:\n{0}'.format(firebase_user["localId"]))
 
     user = await user_db.get(uid)
 
@@ -65,6 +65,6 @@ async def with_authentication(
             emailVerified=firebase_user["emailVerified"]
         )
     
-    logger.info('user : {0}'.format(user))
+    logger.info('uid : {0}'.format(uid))
 
     return user
