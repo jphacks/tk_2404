@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921894286137",
+    "project_id": "jphacks-dev-8d57d",
+    "storage_bucket": "jphacks-dev-8d57d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921894286137:android:9952d9e6d0b7d59b2faee8",
+        "android_client_info": {
+          "package_name": "net.hekuta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA54tQwPkvmoBsbsI9wrGJphKNEDkhhvX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
