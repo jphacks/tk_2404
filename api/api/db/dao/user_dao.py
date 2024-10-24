@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.db.dependencies import get_db_session
 from api.db.models.user_model import UserModel
 
+from sqlalchemy.exc import NoResultFound
+
 class UserDao:
     """Class for accessing users table."""
 
@@ -61,3 +63,9 @@ class UserDao:
 
         return user
     
+    async def delete(self, uid: str) -> None:
+        user = await self.session.get(UserModel, uid)
+        if user is None:
+            raise NoResultFound("User not found.")
+        
+        await self.session.delete(user)
