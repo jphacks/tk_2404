@@ -23,8 +23,15 @@ class HomeView extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
+              // Guarding the use of BuildContext with mounted
+              final currentContext = context; // Store context
+
               await loginViewModel.logout();
-              context.go('/login');
+
+              // Check if the widget is still mounted before using the context
+              if (currentContext.mounted) {
+                currentContext.go('/login');
+              }
             },
             child: const Text('Logout'),
           ),
