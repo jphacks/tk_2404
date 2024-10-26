@@ -7,7 +7,7 @@
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {},
 		"ghcr.io/dhoeric/features/google-cloud-cli:1": {},
-		"ghcr.io/devcontainers-community/templates/dart:1": {},
+		// "ghcr.io/devcontainers-community/templates/dart:1": {},
 		"ghcr.io/devcontainers-extra/features/actions-runner:1": {},
 		"ghcr.io/devcontainers-extra/features/firebase-cli:2": {}
 	},

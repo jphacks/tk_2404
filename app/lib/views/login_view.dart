@@ -12,8 +12,12 @@ class LoginView extends StatelessWidget {
 
     // Automatically navigate if already logged in
     if (loginViewModel.isLoggedIn) {
+      // Use a post-frame callback to navigate after the build is complete
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go('/home');
+        final currentContext = context; // Store context
+        if (currentContext.mounted) {
+          currentContext.go('/home');
+        }
       });
     }
 
@@ -38,9 +42,11 @@ class LoginView extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
+                final currentContext = context; // Store context
+
                 await loginViewModel.login();
-                if (loginViewModel.isLoggedIn) {
-                  context.go('/home');
+                if (currentContext.mounted && loginViewModel.isLoggedIn) {
+                  currentContext.go('/home');
                 }
               },
               child: const Text('Login'),
