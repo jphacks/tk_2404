@@ -75,3 +75,46 @@ class UserDao:
             raise NoResultFound("User not found.")
 
         await self.session.delete(user)
+
+
+    async def update(self, uid: str, **kwards) -> UserModel | None:
+        """
+        ユーザーの情報更新を行う
+        """
+        # user_tmp = await self.session.get(UserModel, uid)
+
+        query = select(UserModel).filter(UserModel.uid == uid)
+        rows = await self.session.execute(query)
+
+        user = rows.scalars().one()
+        for key, value in kwards.items():
+            if value != None:
+                setattr(user, key, value)
+
+        await self.session.flush()
+        return user
+
+
+from typing import List, Optional
+from datetime import datetime #created_atを呼び出すためのインポート
+from api.api.db.models.user_model import UserModel
+
+
+def get_users_sort(offset: int, limit: int, sort: str):
+
+
+    query = query(UserModel)
+
+    # ソート処理
+    if sort == "newest":
+        query = query.order_by(UserModel.created_at.desc())
+    elif sort == "oldest":
+        query = query.order_by(UserModel.created_at)
+    elif sort == "name":
+        query = query.order_by(UserModel.name)
+    elif sort == "name-reverse":
+        query = query.order_by(UserModel.name.desc())
+
+    # ページネーション
+    return query.offset(offset).limit(limit).all()#queryのソート処理をかえすallはソート処理によって処理されたデータすべてを入れるという意味
+
