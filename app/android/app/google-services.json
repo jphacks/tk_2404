@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:921894286137:android:1367b07b24a3041e2faee8",
+        "mobilesdk_app_id": "1:921894286137:android:446a83cf3994b8242faee8",
         "android_client_info": {
-          "package_name": "net.hekuta.app"
+          "package_name": "net.hekuta"
         }
       },
       "oauth_client": [
