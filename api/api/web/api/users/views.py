@@ -37,3 +37,35 @@ async def delete_user(
 
     await user_dao.delete(uid)
     return {"message": "User deleted successfully."}
+
+@router.put("/users/{uid}", response_model=UserModel)
+async def update_user_info(
+    user: UserModel,
+    uid_: str,
+    user_dao: UserDao = Depends(),
+    name_ = None,
+    age_ = None,
+    gender_ = None,
+    listen_genre_id_ = None,
+    home_location_ = None,
+    bio_ = None,
+    email_ = None,
+    emailVerified_ = None
+):
+    """指定されたユーザーの指定された項目を更新する"""
+    if not (target_user := await user_dao.get(uid_)):
+        raise HTTPException(status_code=403, detail="User not found")
+
+    updated_user = await user_dao.update(
+        uid_,
+        # **user.model_dump()
+        name = name_,
+        age = age_,
+        gender = gender_,
+        listen_genre_id = listen_genre_id_,
+        home_location = home_location_,
+        bio = bio_,
+        email = email_,
+        emailVerified = emailVerified_
+        )
+    return updated_user

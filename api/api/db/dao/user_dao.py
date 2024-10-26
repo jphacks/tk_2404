@@ -75,6 +75,23 @@ class UserDao:
         await self.session.delete(user)
 
 
+    async def update(self, uid: str, **kwards) -> UserModel | None:
+        """
+        ユーザーの情報更新を行う
+        """
+        # user_tmp = await self.session.get(UserModel, uid)
+
+        query = select(UserModel).filter(UserModel.uid == uid)
+        rows = await self.session.execute(query)
+
+        user = rows.scalars().one()
+        for key, value in kwards.items():
+            if value != None:
+                setattr(user, key, value)
+
+        await self.session.flush()
+        return user
+
 
 from typing import List, Optional
 from datetime import datetime #created_atを呼び出すためのインポート
