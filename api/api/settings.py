@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     db_echo: bool = False
 
     # spotify token's
-    spotify_token_url: str = ""
+    spotify_token_url: str
     spotify_profile_url: str = ""
     spotify_client_id: str = ""
     spotify_client_secret: str = ""

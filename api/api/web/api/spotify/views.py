@@ -16,11 +16,10 @@ import api.web.api.users.schemas as users_schemas
 
 router = APIRouter()
 
+
 @router.get("/callback")
 async def spotify_callback(
-    request: Request,
-    code: Optional[str] = None,
-    user_dao: UserDao = Depends()
+    request: Request, code: Optional[str] = None, user_dao: UserDao = Depends()
 ):
     """Process login response from Google.
 
@@ -38,11 +37,10 @@ async def spotify_callback(
     """
     if code is None:
         logger.error("Spotify login failed")
-        raise HTTPException(
-            status_code=400, detail="Spotify login faild."
-        )
+        raise HTTPException(status_code=400, detail="Spotify login faild.")
 
     try:
+        logger.info(request.url_for("spotify_callback"))
         access_token = await spotify.get_token(
             code=code,
             client_id=settings.spotify_client_id,
