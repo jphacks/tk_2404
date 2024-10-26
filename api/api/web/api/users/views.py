@@ -1,6 +1,7 @@
+from api.db.dao.user_dao import UserDao
 from api.db.models.user_model import UserModel
 from loguru import logger
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, HTTPException, Response
 from fastapi.param_functions import Depends
 from api.dependencies.auth import with_authentication
 
@@ -18,3 +19,21 @@ async def user_me(
     アクセスしたユーザのデータを返します。アクセスしたユーザがDBに登録されていなかった場合新しく作成します。
     """
     return user
+
+
+
+@router.delete("/{uid}")
+async def delete_user(
+    uid: str,
+    user: UserModel = Depends(with_authentication),  # 認証されたユーザー情報を取得
+    user_dao: UserDao = Depends()
+) -> dict:
+    """
+    指定されたuidのユーザを削除します。
+    アクセスしたユーザは認証済みである必要があります。
+    """
+    if user.uid != uid:
+        raise HTTPException(status_code=403, detail="You do not have permission to delete this user.")
+    
+    await user_dao.delete(uid)
+    return {"message": "User deleted successfully."}
