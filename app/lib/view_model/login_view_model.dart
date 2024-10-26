@@ -6,7 +6,7 @@ class LoginViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginViewModel(this.firebaseState); // コンストラクタでFirebaseStateを受け取る
+  LoginViewModel(this.firebaseState);
 
   Future<void> login() async {
     final email = emailController.text.trim();
