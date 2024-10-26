@@ -4,14 +4,14 @@
       "android": {
         "default": {
           "projectId": "jphacks-dev-8d57d",
-          "appId": "1:921894286137:android:1367b07b24a3041e2faee8",
+          "appId": "1:921894286137:android:446a83cf3994b8242faee8",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "ios": {
         "default": {
           "projectId": "jphacks-dev-8d57d",
-          "appId": "1:921894286137:ios:3b12dc1fbd526b912faee8",
+          "appId": "1:921894286137:ios:25c618830ccb83702faee8",
           "uploadDebugSymbols": false,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
         }
@@ -20,8 +20,8 @@
         "lib/firebase_options.dart": {
           "projectId": "jphacks-dev-8d57d",
           "configurations": {
-            "android": "1:921894286137:android:1367b07b24a3041e2faee8",
-            "ios": "1:921894286137:ios:3b12dc1fbd526b912faee8",
+            "android": "1:921894286137:android:446a83cf3994b8242faee8",
+            "ios": "1:921894286137:ios:25c618830ccb83702faee8",
             "web": "1:921894286137:web:f5c3a7ccb5adce6a2faee8"
           }
         }

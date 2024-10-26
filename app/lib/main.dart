@@ -2,6 +2,7 @@ import 'package:app/firebase_options.dart';
 import 'package:app/routers.dart';
 import 'package:app/view_model/firebase_state.dart';
 import 'package:app/view_model/login_view_model.dart';
+import 'package:app/view_model/shopify_callback_state.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FirebaseState()),
+        ChangeNotifierProvider(
+            create: (context) =>
+                ShopifyCallbackState(context.read<FirebaseState>())),
         ChangeNotifierProvider(
             create: (context) => LoginViewModel(context.read<FirebaseState>())),
       ],
