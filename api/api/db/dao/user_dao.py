@@ -64,6 +64,10 @@ class UserDao:
         return user
     
     async def delete(self, uid: str) -> None:
+        """
+        ユーザの削除を行う
+        
+        """
         user = await self.session.get(UserModel, uid)
         if user is None:
             raise NoResultFound("User not found.")
