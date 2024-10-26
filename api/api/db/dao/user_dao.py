@@ -62,17 +62,18 @@ class UserDao:
         user = await self.session.get(UserModel, uid)
 
         return user
-    
+
     async def delete(self, uid: str) -> None:
         """
         ユーザの削除を行う
-        
+
         """
         user = await self.session.get(UserModel, uid)
         if user is None:
             raise NoResultFound("User not found.")
-        
+
         await self.session.delete(user)
+
 
 
 from typing import List, Optional

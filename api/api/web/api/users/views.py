@@ -34,6 +34,6 @@ async def delete_user(
     """
     if user.uid != uid:
         raise HTTPException(status_code=403, detail="You do not have permission to delete this user.")
-    
+
     await user_dao.delete(uid)
     return {"message": "User deleted successfully."}
