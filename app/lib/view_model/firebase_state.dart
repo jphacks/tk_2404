@@ -11,6 +11,7 @@ class FirebaseState with ChangeNotifier {
 
   FirebaseState() {
     _initAuth();
+    _errorMessage = '';
   }
 
   User? get user => _user;
@@ -24,6 +25,7 @@ class FirebaseState with ChangeNotifier {
     _auth.authStateChanges().listen((User? user) {
       _user = user;
       _isLoading = false;
+      _errorMessage = '';
       notifyListeners();
     });
   }
@@ -50,8 +52,32 @@ class FirebaseState with ChangeNotifier {
     } catch (e) {
       _errorMessage = 'An error occurred: $e';
     }
-    notifyListeners();
 
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> signUp(String email, String password) async {
+    _isLoading = true;
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      _user = userCredential.user;
+      _errorMessage = '';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        _errorMessage = '貧弱なパスワードです';
+      } else if (e.code == 'email-already-in-use') {
+        _errorMessage = 'このメールアドレスは既に使用されています';
+      } else {
+        _errorMessage = e.message ?? '異常なエラーが発生しました';
+      }
+    } catch (e) {
+      _errorMessage = 'An error occurred: $e';
+    }
     _isLoading = false;
     notifyListeners();
   }

@@ -3,6 +3,7 @@ import 'package:app/routers.dart';
 import 'package:app/view_model/firebase_state.dart';
 import 'package:app/view_model/login_view_model.dart';
 import 'package:app/view_model/shopify_callback_state.dart';
+import 'package:app/view_model/signup_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LoginViewModel(context.read<FirebaseState>()),
         ),
+        ChangeNotifierProvider(
+            create: (context) =>
+                SignUpViewModel(context.read<FirebaseState>())),
       ],
       child: ShadApp(
         darkTheme: ShadThemeData(
@@ -39,6 +43,10 @@ class MyApp extends StatelessWidget {
         ),
         builder: (context, theme) => ShadApp.router(
           routerConfig: routers,
+          theme: ShadThemeData(
+            brightness: Brightness.dark,
+            colorScheme: const ShadSlateColorScheme.dark(),
+          ),
         ),
       ),
     );
