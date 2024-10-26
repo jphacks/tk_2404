@@ -1,4 +1,3 @@
-from webbrowser import get
 from api.db.dao.user_dao import UserDao
 from api.db.models.user_model import UserModel
 from loguru import logger
