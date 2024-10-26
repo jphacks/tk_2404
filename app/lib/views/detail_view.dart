@@ -16,7 +16,6 @@ class DetailsView extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigate back to the home screen
                 context.go('/');
               },
               child: const Text('Back to Home'),

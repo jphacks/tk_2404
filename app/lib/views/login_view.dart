@@ -1,4 +1,4 @@
-import 'package:app/view_models/login_view_model.dart';
+import 'package:app/view_model/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -8,18 +8,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // LoginViewModelを取得
     final loginViewModel = Provider.of<LoginViewModel>(context);
-
-    // Automatically navigate if already logged in
-    if (loginViewModel.isLoggedIn) {
-      // Use a post-frame callback to navigate after the build is complete
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final currentContext = context; // Store context
-        if (currentContext.mounted) {
-          currentContext.go('/home');
-        }
-      });
-    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
@@ -45,16 +35,17 @@ class LoginView extends StatelessWidget {
                 final currentContext = context; // Store context
 
                 await loginViewModel.login();
-                if (currentContext.mounted && loginViewModel.isLoggedIn) {
-                  currentContext.go('/home');
+                if (currentContext.mounted &&
+                    loginViewModel.firebaseState.isAuthenticated) {
+                  currentContext.go('/');
                 }
               },
               child: const Text('Login'),
             ),
             const SizedBox(height: 16),
-            if (loginViewModel.errorMessage.isNotEmpty)
+            if (loginViewModel.firebaseState.errorMessage.isNotEmpty)
               Text(
-                loginViewModel.errorMessage,
+                loginViewModel.firebaseState.errorMessage,
                 style: const TextStyle(color: Colors.red),
               ),
           ],

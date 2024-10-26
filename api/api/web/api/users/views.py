@@ -1,3 +1,4 @@
+from webbrowser import get
 from api.db.dao.user_dao import UserDao
 from api.db.models.user_model import UserModel
 from loguru import logger
@@ -34,6 +35,17 @@ async def delete_user(
     """
     if user.uid != uid:
         raise HTTPException(status_code=403, detail="You do not have permission to delete this user.")
-    
+
     await user_dao.delete(uid)
     return {"message": "User deleted successfully."}
+
+
+
+@router.get("/users/{uid}", response_model=users_schemas.UserProfile)
+async def get_user_profile(uid: str, user_dao: UserDao = Depends()) -> UserModel | None:
+    """
+    自身以外のユーザプロフィール
+    """
+    return await user_dao.get(uid=uid)
+
+
