@@ -36,18 +36,19 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 SignUpViewModel(context.read<FirebaseState>())),
       ],
-      child: ShadApp(
-        darkTheme: ShadThemeData(
-          brightness: Brightness.dark,
-          colorScheme: const ShadSlateColorScheme.dark(),
-        ),
-        builder: (context, theme) => ShadApp.router(
-          routerConfig: routers,
-          theme: ShadThemeData(
-            brightness: Brightness.dark,
-            colorScheme: const ShadSlateColorScheme.dark(),
-          ),
-        ),
+      child: ShadApp.material(
+        builder: (context, theme) {
+          return ShadApp.materialRouter(
+            routerConfig: routers,
+            themeMode: ThemeMode.dark,
+          );
+        },
+        materialThemeBuilder: (context, theme) {
+          return theme.copyWith(
+            appBarTheme: AppBarTheme(color: theme.colorScheme.primary),
+            scaffoldBackgroundColor: theme.colorScheme.surface,
+          );
+        },
       ),
     );
   }

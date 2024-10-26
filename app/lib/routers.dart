@@ -1,6 +1,5 @@
+import 'package:app/base.dart';
 import 'package:app/view_model/firebase_state.dart';
-import 'package:app/views/detail_view.dart';
-import 'package:app/views/home_view.dart';
 import 'package:app/views/login_view.dart';
 import 'package:app/views/signup_view.dart';
 import 'package:go_router/go_router.dart';
@@ -30,7 +29,7 @@ final GoRouter routers = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomeView(),
+      builder: (context, state) => const BasePage(),
     ),
     GoRoute(
       path: '/login',
@@ -39,10 +38,6 @@ final GoRouter routers = GoRouter(
     GoRoute(
       path: '/signup',
       builder: (context, state) => const SignUpView(),
-    ),
-    GoRoute(
-      path: '/details',
-      builder: (context, state) => const DetailsView(),
     ),
   ],
 );
