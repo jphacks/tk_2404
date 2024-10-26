@@ -32,16 +32,13 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginViewModel(context.read<FirebaseState>()),
         ),
       ],
-      child: ShadApp.material(
-        theme: ShadThemeData(
+      child: ShadApp(
+        darkTheme: ShadThemeData(
           brightness: Brightness.dark,
           colorScheme: const ShadSlateColorScheme.dark(),
         ),
-        builder: (context, theme) => MaterialApp.router(
+        builder: (context, theme) => ShadApp.router(
           routerConfig: routers,
-          theme: ThemeData.dark().copyWith(
-            materialTapTargetSize: MaterialTapTargetSize.padded,
-          ),
         ),
       ),
     );

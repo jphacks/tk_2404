@@ -44,37 +44,30 @@ class HomeView extends StatelessWidget {
       state: state,
     );
 
-    return Scaffold(
-        appBar: AppBar(title: const Text('Home')),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Welcome, ${loginViewModel.firebaseState.user?.email ?? "User"}!',
-                style: const TextStyle(fontSize: 24),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  final currentContext = context;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Welcome!', style: TextStyle(fontSize: 24)),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () async {
+            final currentContext = context;
 
-                  await loginViewModel.logout();
+            await loginViewModel.logout();
 
-                  if (currentContext.mounted) {
-                    currentContext.go('/login');
-                  }
-                },
-                child: const Text('Logout'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  await launchUrl(authUrl);
-                },
-                child: const Text('Spotify 連携'),
-              ),
-            ],
-          ),
-        ));
+            if (currentContext.mounted) {
+              currentContext.go('/login');
+            }
+          },
+          child: const Text('Logout'),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            await launchUrl(authUrl);
+          },
+          child: const Text('Spotify 連携'),
+        ),
+      ],
+    );
   }
 }
