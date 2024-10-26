@@ -40,7 +40,7 @@ async def delete_user(
     return {"message": "User deleted successfully."}
 
 
-@router.get("/users/{uid}", response_model=users_schemas.UserProfile)
+@router.get("/{uid}", response_model=users_schemas.UserProfile)
 async def get_user_profile(uid: str, user_dao: UserDao = Depends()) -> UserModel | None:
     """
     自身以外のユーザプロフィール
@@ -48,7 +48,7 @@ async def get_user_profile(uid: str, user_dao: UserDao = Depends()) -> UserModel
     return await user_dao.get(uid=uid)
 
 
-@router.put("/users/{uid}", response_model=UserModel)
+@router.put("/{uid}", response_model=UserModel)
 async def update_user_info(
     user: UserModel,
     uid_: str,
