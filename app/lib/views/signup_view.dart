@@ -90,9 +90,9 @@ class SignUpViewState extends State<SignUpView> {
                 ),
               ),
               const SizedBox(height: 16),
-              if (signUpViewModel.firebaseState.errorMessage.isNotEmpty)
+              if (signUpViewModel.errorMessage.isNotEmpty)
                 Text(
-                  signUpViewModel.firebaseState.errorMessage,
+                  signUpViewModel.errorMessage,
                   style: const TextStyle(color: Colors.red),
                 ),
               const Divider(

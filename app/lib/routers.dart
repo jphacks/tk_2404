@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 
 final GoRouter routers = GoRouter(
   redirect: (context, state) {
-    final firebaseState = context.read<FirebaseState>(); // FirebaseStateを取得
-    final isAuthenticated = firebaseState.isAuthenticated; // isLoggedInプロパティを使用
+    final firebaseState = context.read<FirebaseState>();
+    final isAuthenticated = firebaseState.isAuthenticated;
 
     if (state.matchedLocation == '/' &&
         !isAuthenticated &&

@@ -41,19 +41,11 @@ class FirebaseState with ChangeNotifier {
       );
       _user = userCredential.user;
       _errorMessage = '';
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        _errorMessage = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        _errorMessage = 'Wrong password provided for that user.';
-      } else {
-        _errorMessage = e.message ?? 'An unknown error occurred.';
-      }
     } catch (e) {
-      _errorMessage = 'An error occurred: $e';
+      _isLoading = false;
+      rethrow;
     }
 
-    _isLoading = false;
     notifyListeners();
   }
 
@@ -67,18 +59,10 @@ class FirebaseState with ChangeNotifier {
       );
       _user = userCredential.user;
       _errorMessage = '';
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        _errorMessage = '貧弱なパスワードです';
-      } else if (e.code == 'email-already-in-use') {
-        _errorMessage = 'このメールアドレスは既に使用されています';
-      } else {
-        _errorMessage = e.message ?? '異常なエラーが発生しました';
-      }
     } catch (e) {
-      _errorMessage = 'An error occurred: $e';
+      _isLoading = false;
+      rethrow;
     }
-    _isLoading = false;
     notifyListeners();
   }
 
@@ -86,6 +70,11 @@ class FirebaseState with ChangeNotifier {
     await _auth.signOut();
     _user = null;
     _isLoading = false;
+    notifyListeners();
+  }
+
+  void clearErrorMessage() {
+    _errorMessage = '';
     notifyListeners();
   }
 }

@@ -72,9 +72,9 @@ class LoginViewState extends State<LoginView> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                if (loginViewModel.firebaseState.errorMessage.isNotEmpty)
+                if (loginViewModel.errorMessage.isNotEmpty)
                   Text(
-                    loginViewModel.firebaseState.errorMessage,
+                    loginViewModel.errorMessage,
                     style: const TextStyle(color: Colors.red),
                   ),
                 const Divider(
