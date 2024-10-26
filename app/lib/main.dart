@@ -1,6 +1,7 @@
 import 'package:app/firebase_options.dart';
 import 'package:app/routers.dart';
-import 'package:app/view_models/login_view_model.dart';
+import 'package:app/view_model/firebase_state.dart';
+import 'package:app/view_model/login_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +19,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FirebaseState()),
+        ChangeNotifierProvider(
+            create: (context) => LoginViewModel(context.read<FirebaseState>())),
+      ],
       child: MaterialApp.router(
         routerConfig: routers,
         theme: ThemeData.light().copyWith(
