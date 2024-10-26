@@ -48,7 +48,7 @@ class UserDao:
         await self.session.flush()
 
         return user
-    
+
     async def get(self, uid:str) -> UserModel | None:
         """
         uidからユーザを取得します
@@ -62,14 +62,15 @@ class UserDao:
         return user
 
 
-from fastapi import FastAPI, Query
 from typing import List, Optional
 from datetime import datetime #created_atを呼び出すためのインポート
 from api.api.db.models.user_model import UserModel
 
 
-def get_users(db: Session, offset: int, limit: int, sort: str):
-    query = db.query(UserModel)
+def get_users_sort(offset: int, limit: int, sort: str):
+
+
+    query = query(UserModel)
 
     # ソート処理
     if sort == "newest":
@@ -89,4 +90,4 @@ def get_users(db: Session, offset: int, limit: int, sort: str):
 
 
 
-    
+
