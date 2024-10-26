@@ -7,7 +7,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.db.dependencies import get_db_session
 from api.db.models.gps_model import GpsModel
 
-from sqlalchemy.exc import NoResultFound
 
 
 class GpsDao:
@@ -20,15 +19,24 @@ class GpsDao:
     async def create(
         self,
         uid: str,
+        music_url: str,
+        latitude: float,
+        longitude: float
     ) -> GpsModel:
         """
         GPS座標に音楽URLを添付したデータを作成します
 
         :param uid: ユーザのuid
-        :return: ユーザが作成された場合、UserModelを返します
+        :param music_url: 共有する音楽情報のURL
+        :param latitude: GPSで取得した緯度
+        :param longitude: GPSで取得した経度
+        :return: ユーザが作成された場合、GpsModelを返します
         """
         data = GpsModel(
             uid=uid,
+            music_url=music_url,
+            latitude=latitude,
+            longitude=longitude
         )
 
         self.session.add(data)

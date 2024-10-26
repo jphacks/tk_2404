@@ -62,22 +62,17 @@ class UserDao:
         user = await self.session.get(UserModel, uid)
 
         return user
-    
+
     async def delete(self, uid: str) -> None:
         """
         ユーザの削除を行う
-        
+
         """
         user = await self.session.get(UserModel, uid)
         if user is None:
             raise NoResultFound("User not found.")
-        
+
         await self.session.delete(user)
-
-
-from typing import List, Optional
-from datetime import datetime #created_atを呼び出すためのインポート
-from api.api.db.models.user_model import UserModel
 
 
 def get_users_sort(offset: int, limit: int, sort: str):
