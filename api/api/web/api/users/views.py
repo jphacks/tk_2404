@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Response, status
 from fastapi.param_functions import Depends
 from fastapi.responses import JSONResponse
-
 from api.db.dao.user_dao import UserDao
 from api.db.models.user_model import UserModel
 from api.dependencies.auth import with_authentication

@@ -46,6 +46,13 @@ class Settings(BaseSettings):
     db_base: str = "api"
     db_echo: bool = False
 
+    # spotify token's
+    spotify_token_url: str
+    spotify_profile_url: str = ""
+    spotify_client_id: str = ""
+    spotify_client_secret: str = ""
+
+
     @property
     def db_url(self) -> URL:
         """
