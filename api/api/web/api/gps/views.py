@@ -1,19 +1,17 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter
 from fastapi.param_functions import Depends
-from loguru import logger
 
-import api.web.api.gps.schemas as gps_schemas
 from api.db.dao.gps_dao import GpsDao
-from api.db.models.gps_model import GpsModel
 from api.db.models.user_model import UserModel
 from api.dependencies.auth import with_authentication
+from api.schemas.gps import GPSRequestBody
 
 router = APIRouter()
 
 
 @router.post("/")
 async def set_gps(
-    item: gps_schemas.GpsRequestBody,
+    item: GPSRequestBody,
     user: UserModel = Depends(with_authentication),
     gps_dao: GpsDao = Depends(),
 ):

@@ -3,16 +3,16 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
-class GpsBase(BaseModel):
+class GPSBase(BaseModel):
     latitude: float = 0.0
     longitude: float = 0.0
 
 
-class GpsRequestBody(GpsBase):
+class GPSRequestBody(GPSBase):
     music_url: str = Field(max_length=256)
 
 
-class GpsInfo(GpsBase):
+class GPSInfo(GPSBase):
     uid: str = Field(max_length=128)
     created_at: datetime
     updated_at: datetime
