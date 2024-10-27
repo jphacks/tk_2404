@@ -36,6 +36,7 @@ class BasePageState extends State<BasePage> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: BottomNavigationBar(
+            fixedColor: Colors.blueGrey,
             backgroundColor: Colors.black,
             items: const [
               BottomNavigationBarItem(

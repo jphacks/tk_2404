@@ -61,12 +61,6 @@ class HomeView extends StatelessWidget {
           },
           child: const Text('Logout'),
         ),
-        ElevatedButton(
-          onPressed: () async {
-            await launchUrl(authUrl);
-          },
-          child: const Text('Spotify 連携'),
-        ),
       ],
     );
   }
