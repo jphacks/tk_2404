@@ -17,6 +17,7 @@ class FirebaseState with ChangeNotifier {
   User? get user => _user;
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _user != null;
+  bool get isEmailVerified => _user?.emailVerified ?? false;
   String get errorMessage => _errorMessage;
 
   Future<void> _initAuth() async {
@@ -75,6 +76,18 @@ class FirebaseState with ChangeNotifier {
 
   void clearErrorMessage() {
     _errorMessage = '';
+    notifyListeners();
+  }
+
+  Future<User?> reloadUser() async {
+    FirebaseAuth.instance.currentUser!.reload();
+    _user = await _auth.currentUser;
+    notifyListeners();
+    return _user!;
+  }
+
+  void setUser(User user) {
+    _user = user;
     notifyListeners();
   }
 }

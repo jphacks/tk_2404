@@ -22,6 +22,8 @@ class LoginViewModel extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         _errorMessage = 'ユーザー名または、パスワードが違います。';
+      } else if (e.code == 'network-request-failed') {
+        _errorMessage = 'ネットワークに接続できません。';
       } else {
         _errorMessage = e.message ?? '原因不明のエラーが発生しました。';
       }
