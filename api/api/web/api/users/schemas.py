@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -9,6 +10,7 @@ class UserBase(BaseModel):
 
 class UserProfile(UserBase):
     """ユーザのプロフィール"""
+
     name: Optional[str] = Field(max_length=16, example="江無田はる")
     age: Optional[int] = Field(example=18)
     gender: Optional[int] = Field(ge=0, lt=10, example=1)
@@ -19,6 +21,7 @@ class UserProfile(UserBase):
 
 class UserInfo(UserProfile):
     """ユーザの登録情報"""
+
     uid: str = Field(max_length=128)
     email: str = Field(example="example@exampl.com")
     emailVerified: bool

@@ -1,12 +1,11 @@
 from typing import Optional
-from loguru import logger
 
 from fastapi import Depends
+from loguru import logger
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.db.dependencies import get_db_session
 from api.db.models.gps_model import GpsModel
-
 
 
 class GpsDao:
@@ -17,11 +16,7 @@ class GpsDao:
 
     # TODO: ここをつくる
     async def create(
-        self,
-        uid: str,
-        music_url: str,
-        latitude: float,
-        longitude: float
+        self, uid: str, music_url: str, latitude: float, longitude: float
     ) -> GpsModel:
         """
         GPS座標に音楽URLを添付したデータを作成します
@@ -33,10 +28,7 @@ class GpsDao:
         :return: ユーザが作成された場合、GpsModelを返します
         """
         data = GpsModel(
-            uid=uid,
-            music_url=music_url,
-            latitude=latitude,
-            longitude=longitude
+            uid=uid, music_url=music_url, latitude=latitude, longitude=longitude
         )
 
         self.session.add(data)

@@ -1,15 +1,12 @@
 from typing import Optional
-from loguru import logger
 
 from fastapi import Depends
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.db.dependencies import get_db_session
 from api.db.models.user_model import UserModel
 
-from sqlalchemy.exc import NoResultFound
-
-from api.db.models.user_model import UserModel
 
 class UserDao:
     """Class for accessing users table."""
@@ -19,16 +16,16 @@ class UserDao:
 
     async def create(
         self,
-        uid:str,
-        name:Optional[str] = None,
-        age:Optional[int] = None,
-        gender:Optional[int] = None,
-        listen_genre_id:Optional[int] = None,
-        home_location:Optional[str] = None,
-        bio:Optional[str] = None,
-        email:Optional[str] = None,
-        emailVerified:Optional[bool] = None
-    )->UserModel:
+        uid: str,
+        name: Optional[str] = None,
+        age: Optional[int] = None,
+        gender: Optional[int] = None,
+        listen_genre_id: Optional[int] = None,
+        home_location: Optional[str] = None,
+        bio: Optional[str] = None,
+        email: Optional[str] = None,
+        emailVerified: Optional[bool] = None,
+    ) -> UserModel:
         """
         新規ユーザーを作成します
 
@@ -36,15 +33,15 @@ class UserDao:
         :return: ユーザが作成された場合、UserModelを返します
         """
         user = UserModel(
-            uid = uid,
-            name = name,
-            age = age,
-            gender = gender,
-            listen_genre_id = listen_genre_id,
-            home_location = home_location,
-            bio = bio,
-            email = email,
-            emailVerified = emailVerified
+            uid=uid,
+            name=name,
+            age=age,
+            gender=gender,
+            listen_genre_id=listen_genre_id,
+            home_location=home_location,
+            bio=bio,
+            email=email,
+            emailVerified=emailVerified,
         )
 
         self.session.add(user)
@@ -53,7 +50,7 @@ class UserDao:
 
         return user
 
-    async def get(self, uid:str) -> UserModel | None:
+    async def get(self, uid: str) -> UserModel | None:
         """
         uidからユーザを取得します
 
@@ -76,7 +73,6 @@ class UserDao:
 
         await self.session.delete(user)
 
-
     async def update(self, uid: str, **kwards) -> UserModel | None:
         """
         ユーザーの情報更新を行う
@@ -95,13 +91,7 @@ class UserDao:
         return user
 
 
-from typing import List, Optional
-from datetime import datetime #created_atを呼び出すためのインポート
-from api.api.db.models.user_model import UserModel
-
-
 def get_users_sort(offset: int, limit: int, sort: str):
-
 
     query = query(UserModel)
 
@@ -116,5 +106,6 @@ def get_users_sort(offset: int, limit: int, sort: str):
         query = query.order_by(UserModel.name.desc())
 
     # ページネーション
-    return query.offset(offset).limit(limit).all()#queryのソート処理をかえすallはソート処理によって処理されたデータすべてを入れるという意味
-
+    return (
+        query.offset(offset).limit(limit).all()
+    )  # queryのソート処理をかえすallはソート処理によって処理されたデータすべてを入れるという意味

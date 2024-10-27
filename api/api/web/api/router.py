@@ -1,6 +1,6 @@
 from fastapi.routing import APIRouter
 
-from api.web.api import dummy, echo, monitoring, users, gps
+from api.web.api import dummy, echo, gps, monitoring, users
 
 api_router = APIRouter()
 api_router.include_router(monitoring.router)

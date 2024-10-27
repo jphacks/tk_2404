@@ -1,11 +1,12 @@
 from typing import List
 
-from api.dependencies.auth import with_authentication
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 from loguru import logger
+
 from api.db.dao.dummy_dao import DummyDAO
 from api.db.models.dummy_model import DummyModel
+from api.dependencies.auth import with_authentication
 from api.web.api.dummy.schema import DummyModelDTO, DummyModelInputDTO
 
 router = APIRouter()

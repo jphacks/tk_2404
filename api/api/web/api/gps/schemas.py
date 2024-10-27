@@ -1,11 +1,13 @@
 from datetime import datetime
 from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
 class GpsBase(BaseModel):
     latitude: float = 0.0
     longitude: float = 0.0
+
 
 class GpsRequestBody(GpsBase):
     music_url: str = Field(max_length=256)
