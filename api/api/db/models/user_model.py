@@ -23,4 +23,4 @@ class UserModel(Base):
     )
     bio: Mapped[String] = mapped_column(String(length=64), default=None, nullable=True)
     email: Mapped[String] = mapped_column(String, unique=True, nullable=False)
-    emailVerified: Mapped[Boolean] = mapped_column(Boolean, nullable=False)
+    email_verified: Mapped[Boolean] = mapped_column(Boolean, nullable=False)

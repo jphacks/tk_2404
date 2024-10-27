@@ -1,6 +1,7 @@
 from typing import Optional
 
 from fastapi import Depends
+from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,7 +25,7 @@ class UserDao:
         home_location: Optional[str] = None,
         bio: Optional[str] = None,
         email: Optional[str] = None,
-        emailVerified: Optional[bool] = None,
+        email_verified: Optional[bool] = None,
     ) -> UserModel:
         """
         新規ユーザーを作成します
@@ -41,7 +42,7 @@ class UserDao:
             home_location=home_location,
             bio=bio,
             email=email,
-            emailVerified=emailVerified,
+            email_verified=email_verified,
         )
 
         self.session.add(user)
@@ -77,14 +78,13 @@ class UserDao:
         """
         ユーザーの情報更新を行う
         """
-        # user_tmp = await self.session.get(UserModel, uid)
 
         query = select(UserModel).filter(UserModel.uid == uid)
         rows = await self.session.execute(query)
 
         user = rows.scalars().one()
         for key, value in kwards.items():
-            if value != None:
+            if value is not None:
                 setattr(user, key, value)
 
         await self.session.flush()
@@ -93,7 +93,7 @@ class UserDao:
 
 def get_users_sort(offset: int, limit: int, sort: str):
 
-    query = query(UserModel)
+    query = select(UserModel)
 
     # ソート処理
     if sort == "newest":
