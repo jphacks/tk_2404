@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 import firebase_admin
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -6,6 +9,7 @@ from loguru import logger
 
 from api.db.dao.user_dao import UserDao
 from api.db.models.user_model import UserModel
+from api.settings import settings
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate("./firebase_admin_account_key.json")
@@ -25,16 +29,16 @@ async def with_authentication(
 
     try:
         decoded_token = auth.verify_id_token(cred.credentials)
-    except auth.InvalidIdTokenError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid ID token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
     except auth.ExpiredIdTokenError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Expired ID token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    except auth.InvalidIdTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid ID token",
             headers={"WWW-Authenticate": "Bearer"},
         )
     except Exception:
@@ -68,4 +72,7 @@ async def with_authentication(
 
     logger.info("uid : {0}".format(uid))
 
+    return user
+    return user
+    return user
     return user

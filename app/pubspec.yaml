@@ -20,6 +20,7 @@ dependencies:
   app_links: ^6.3.2
   shadcn_ui: ^0.13.5
   firebase_dynamic_links: ^6.0.8
+  openapi_generator: ^5.0.2
 
 dev_dependencies:
   flutter_test:

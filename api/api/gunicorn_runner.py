@@ -63,8 +63,8 @@ class GunicornApplication(BaseApplication):
         parameter to it, it crash with error.
         """
         for key, value in self.options.items():
-            if key in self.cfg.settings and value is not None:
-                self.cfg.set(key.lower(), value)
+            if key in self.cfg.settings and value is not None: # type: ignore
+                self.cfg.set(key.lower(), value) # type: ignore
 
     def load(self) -> str:
         """
@@ -76,4 +76,4 @@ class GunicornApplication(BaseApplication):
 
         :returns: python path to app factory.
         """
-        return import_app(self.app)
+        return import_app(self.app) # type: ignore

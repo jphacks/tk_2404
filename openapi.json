@@ -1,0 +1,588 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "api",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "User Me",
+        "description": "\u30a2\u30af\u30bb\u30b9\u3057\u305f\u30e6\u30fc\u30b6\u306e\u30c7\u30fc\u30bf\u3092\u8fd4\u3057\u307e\u3059\u3002\u30a2\u30af\u30bb\u30b9\u3057\u305f\u30e6\u30fc\u30b6\u304cDB\u306b\u767b\u9332\u3055\u308c\u3066\u3044\u306a\u304b\u3063\u305f\u5834\u5408\u65b0\u3057\u304f\u4f5c\u6210\u3057\u307e\u3059\u3002",
+        "operationId": "user_me_api_users_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInfo"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update User Info",
+        "description": "\u6307\u5b9a\u3055\u308c\u305f\u30e6\u30fc\u30b6\u30fc\u306e\u6307\u5b9a\u3055\u308c\u305f\u9805\u76ee\u3092\u66f4\u65b0\u3059\u308b",
+        "operationId": "update_user_info_api_users_me_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInfo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInfo"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{uid}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get User Profile",
+        "description": "\u81ea\u8eab\u4ee5\u5916\u306e\u30e6\u30fc\u30b6\u30d7\u30ed\u30d5\u30a3\u30fc\u30eb",
+        "operationId": "get_user_profile_api_users__uid__get",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Uid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete User",
+        "description": "\u6307\u5b9a\u3055\u308c\u305fuid\u306e\u30e6\u30fc\u30b6\u3092\u524a\u9664\u3057\u307e\u3059\u3002\n\u30a2\u30af\u30bb\u30b9\u3057\u305f\u30e6\u30fc\u30b6\u306f\u8a8d\u8a3c\u6e08\u307f\u3067\u3042\u308b\u5fc5\u8981\u304c\u3042\u308a\u307e\u3059\u3002",
+        "operationId": "delete_user_api_users__uid__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Uid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/spotify/login": {
+      "get": {
+        "tags": [
+          "spotify"
+        ],
+        "summary": "Spotify Login",
+        "operationId": "spotify_login_api_spotify_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/spotify/callback": {
+      "get": {
+        "tags": [
+          "spotify"
+        ],
+        "summary": "Spotify Callback",
+        "description": "Process login response from Google.\n\nWhen a login or registration is successful,\nyou will be automatically logged in via a URL with query parameters.\n\n:param request: Request object of fastAPI.\n:param code: String will be use to retrieve access token.\n:param user_dao: UserDAO Object\n:param token_dao: TokenDAO Object\n:raises NotVerifiedEmailError: If not verified email\n:returns:\n    Redirect to login url or response\n    BadRequest(400) when code is not valid.",
+        "operationId": "spotify_callback_api_spotify_callback_get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/gps/": {
+      "post": {
+        "tags": [
+          "gps"
+        ],
+        "summary": "Set Gps",
+        "description": "GPS\u4f4d\u7f6e\u60c5\u5831\u3068\u95a2\u9023\u4ed8\u3051\u305f\u97f3\u697dURL\u3092\u4fdd\u5b58\u3057\u307e\u3059",
+        "operationId": "set_gps_api_gps__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GPSRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GPSRequestBody": {
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "title": "Latitude",
+            "default": 0.0
+          },
+          "longitude": {
+            "type": "number",
+            "title": "Longitude",
+            "default": 0.0
+          },
+          "music_url": {
+            "type": "string",
+            "maxLength": 256,
+            "title": "Music Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "music_url"
+        ],
+        "title": "GPSRequestBody"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "UserInfo": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 16
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "examples": [
+              "\u6c5f\u7121\u7530\u306f\u308b"
+            ]
+          },
+          "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Age",
+            "examples": [
+              18
+            ]
+          },
+          "gender": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMaximum": 10.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gender",
+            "examples": [
+              1
+            ]
+          },
+          "listen_genre_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Listen Genre Id",
+            "default": 0
+          },
+          "home_location": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 32
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Home Location",
+            "examples": [
+              "\u6771\u4eac"
+            ]
+          },
+          "bio": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bio",
+            "examples": [
+              "Hello World"
+            ]
+          },
+          "uid": {
+            "type": "string",
+            "maxLength": 128,
+            "title": "Uid"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "examples": [
+              "example@exampl.com"
+            ]
+          },
+          "email_verified": {
+            "type": "boolean",
+            "title": "Email Verified"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "age",
+          "gender",
+          "home_location",
+          "bio",
+          "uid",
+          "email",
+          "email_verified",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "UserInfo",
+        "description": "\u30e6\u30fc\u30b6\u306e\u767b\u9332\u60c5\u5831"
+      },
+      "UserProfile": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 16
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "examples": [
+              "\u6c5f\u7121\u7530\u306f\u308b"
+            ]
+          },
+          "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Age",
+            "examples": [
+              18
+            ]
+          },
+          "gender": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "exclusiveMaximum": 10.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gender",
+            "examples": [
+              1
+            ]
+          },
+          "listen_genre_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Listen Genre Id",
+            "default": 0
+          },
+          "home_location": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 32
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Home Location",
+            "examples": [
+              "\u6771\u4eac"
+            ]
+          },
+          "bio": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bio",
+            "examples": [
+              "Hello World"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "age",
+          "gender",
+          "home_location",
+          "bio"
+        ],
+        "title": "UserProfile",
+        "description": "\u30e6\u30fc\u30b6\u306e\u30d7\u30ed\u30d5\u30a3\u30fc\u30eb"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
