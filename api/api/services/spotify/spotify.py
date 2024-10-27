@@ -62,37 +62,3 @@ async def get_user_info(access_token: str) -> Dict[str, str]:
     return user_info
 
 
-# def auth_url(
-#     client_id: str,
-#     redirect_uri: str,
-#     scope: str | List[str] = ["openid", "profile", "email"].copy(),
-#     response_type: str = "code",
-#     **kwargs: str | List[str],
-# ) -> str:
-#     """Generate authorization link for Google login.
-
-#     :param client_id: client_id of Google APP.
-#     :param redirect_uri: redirect_uri of Google APP
-#     :param scope: Scope of the Google API
-#     :param response_type: responce type of the Google API
-#     :param **kwargs: Custom parameters
-#     :returns: authorization_link for google login.
-#     """
-#     if not static.GOOGLE_AUTH_URL.endswith("?"):
-#         google_auth_url = f"{static.GOOGLE_AUTH_URL}?"
-
-#     params: Dict[str, str | List[str]] = {
-#         "client_id": client_id,
-#         "redirect_uri": redirect_uri,
-#         "response_type": response_type,
-#         "scope": scope,
-#     }
-#     params.update(kwargs)
-#     for param, value in params.items():
-#         if isinstance(value, list):
-#             params[param] = urllib.parse.quote(" ".join(value))
-
-#     params = [f"{p}={v}" for p, v in params.items()]  # type: ignore
-#     parameters = "&".join(params)
-
-#     return google_auth_url + parameters
