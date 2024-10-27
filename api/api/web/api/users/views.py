@@ -48,7 +48,7 @@ async def get_user_profile(uid: str, user_dao: UserDao = Depends()) -> UserModel
     return await user_dao.get(uid=uid)
 
 
-@router.put("/{uid}", response_model=UserModel)
+@router.put("/{uid}")
 async def update_user_info(
     user: UserModel,
     uid_: str,

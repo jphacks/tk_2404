@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from loguru import logger
 
 from fastapi import Depends
@@ -10,6 +10,7 @@ from api.db.models.user_model import UserModel
 from sqlalchemy.exc import NoResultFound
 
 from api.db.models.user_model import UserModel
+from datetime import datetime #created_atを呼び出すためのインポート
 
 class UserDao:
     """Class for accessing users table."""
@@ -95,9 +96,7 @@ class UserDao:
         return user
 
 
-from typing import List, Optional
-from datetime import datetime #created_atを呼び出すためのインポート
-from api.api.db.models.user_model import UserModel
+
 
 
 def get_users_sort(offset: int, limit: int, sort: str):
