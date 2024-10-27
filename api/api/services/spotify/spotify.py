@@ -35,7 +35,6 @@ async def get_token(
         "redirect_uri": redirect_uri,
         "grant_type": grant_type,
     }
-    logger.info("1")
     async with httpx.AsyncClient() as client:
         response = await client.post(settings.spotify_token_url, data=params,headers={'Content-Type':'application/x-www-form-urlencoded'})
         token_data = response.json()

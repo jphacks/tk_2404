@@ -1,9 +1,12 @@
+import logging
 from typing import Optional
 
 from pytest import console_main
+from yarl import Query
 from api.db.dao.user_dao import UserDao
 from api.db.models.user_model import UserModel
 from loguru import logger
+import httpx
 from fastapi import APIRouter, HTTPException, Request, Response
 from fastapi.param_functions import Depends
 from api.dependencies.auth import with_authentication
@@ -15,6 +18,26 @@ import api.web.api.users.schemas as users_schemas
 
 
 router = APIRouter()
+
+
+@router.get("/login")
+async def spotify_login(request: Request):
+    scope = "user-read-private user-read-email"
+
+    params = {
+        "client_id": settings.spotify_client_id,
+        "client_secret": settings.spotify_client_secret,
+        "redirect_uri": str(request.url_for("spotify_callback")),
+        "grant_type": scope,
+    }
+
+    async with httpx.AsyncClient() as client:
+        result = await client.get(
+            f"https://accounts.spotify.com/authorize?client_id={settings.spotify_client_id}&client_secret={settings.spotify_client_secret}&redirect_uri={str(request.url_for('spotify_callback'))}&grant_type={scope}",
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+
+    return result.next_request
 
 
 @router.get("/callback")
