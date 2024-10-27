@@ -51,7 +51,6 @@ async def get_user_profile(uid: str, user_dao: UserDao = Depends()) -> UserModel
 
 @router.put("/{uid}", response_model=UserModel)
 async def update_user_info(
-    user: UserModel,
     uid_: str,
     user_dao: UserDao = Depends(),
     name_=None,
@@ -64,9 +63,6 @@ async def update_user_info(
     emailVerified_=None,
 ):
     """指定されたユーザーの指定された項目を更新する"""
-    if not (target_user := await user_dao.get(uid_)):
-        raise HTTPException(status_code=403, detail="User not found")
-
     updated_user = await user_dao.update(
         uid_,
         # **user.model_dump()
