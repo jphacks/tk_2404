@@ -90,22 +90,28 @@ class UserDao:
         await self.session.flush()
         return user
 
+    async def get_users_sort(self, offset: int, limit: int, sort: str):
+        """
+        ユーザーをソートして取得します
 
-def get_users_sort(offset: int, limit: int, sort: str):
+        :param offset: 取得開始位置
+        :param limit: 取得件数
+        :param sort: ソートの種類
+        :return: ソートされたユーザーのリスト
+        """
+        query = select(UserModel)
 
-    query = select(UserModel)
+        # ソート処理
+        sort_options = {
+            "newest": UserModel.created_at.desc(),
+            "oldest": UserModel.created_at,
+            "name": UserModel.name,
+            "name-reverse": UserModel.name.desc(),
+        }
 
-    # ソート処理
-    if sort == "newest":
-        query = query.order_by(UserModel.created_at.desc())
-    elif sort == "oldest":
-        query = query.order_by(UserModel.created_at)
-    elif sort == "name":
-        query = query.order_by(UserModel.name)
-    elif sort == "name-reverse":
-        query = query.order_by(UserModel.name.desc())
+        if sort in sort_options:
+            query = query.order_by(sort_options[sort])
 
-    # ページネーション
-    return (
-        query.offset(offset).limit(limit).all()
-    )  # queryのソート処理をかえすallはソート処理によって処理されたデータすべてを入れるという意味
+        # ページネーション
+        result = await self.session.execute(query.offset(offset).limit(limit))
+        return result.scalars().all()
