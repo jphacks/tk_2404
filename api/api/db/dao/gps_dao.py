@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Optional, Self
 
 from fastapi import Depends
 from loguru import logger
+from sqlalchemy import select, func, literal
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.db.dependencies import get_db_session
@@ -36,3 +37,43 @@ class GpsDao:
         await self.session.flush()
 
         return data
+
+    async def get_list(self, lat:float, lon:float):
+        """
+        近い順で返す
+        """
+
+        # Main query to calculate distances
+        query = (
+            select(
+                GpsModel,
+                func.round(
+                    func.sqrt(
+                        (
+                            literal(6334834) / func.pow(func.sqrt(func.pow(
+                                func.pow(1 - 0.006674 * func.sin(
+                                    (GpsModel.latitude / 2 + lat / 2) * func.pi() / 180
+                                ),2),3
+                            ) * (GpsModel.latitude - lat) * func.pi() / 180
+                        ), 2) +
+                        func.pow(
+                            literal(6377397) / func.sqrt(func.pow(
+                                1 - 0.006674 * func.sin(
+                                    (GpsModel.latitude / 2 + lat / 2) * func.pi() / 180
+                                ), 2)
+                            ) * func.cos(
+                                (GpsModel.latitude / 2 + lat / 2) * func.pi() / 180
+                            ) * (GpsModel.longitude - lon) * func.pi() / 180
+                        ),2)
+                    ), 6
+                ).label('distance')
+            )
+            .select_from(GpsModel)
+            .order_by('distance')
+        )
+
+        # Execute the query
+        results = await self.session.execute(query.limit(100))
+
+        return results.scalars().all()
+
