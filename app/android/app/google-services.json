@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "921894286137-1e554tpaimbpnj7isnbu0scc0q97kvvl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.hekuta",
+            "certificate_hash": "244d864b2905a7d0207248a830dfdff65851c170"
+          }
+        },
+        {
           "client_id": "921894286137-ki3ju7avt9isnjm75ej5dfnbbjmc49us.apps.googleusercontent.com",
           "client_type": 3
         }

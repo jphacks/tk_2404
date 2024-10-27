@@ -15,7 +15,7 @@ class BasePageState extends State<BasePage> {
 
   final pages = [
     const HomeView(),
-    const NotificationView(),
+    NotificationView(),
     const ConfigurationView()
   ];
 
