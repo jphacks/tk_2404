@@ -1,6 +1,6 @@
 # Music-Walk
 
-[![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
+[![IMAGE ALT TEXT HERE]([https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg](https://cdn.discordapp.com/attachments/1265867775100977154/1299975416244862996/DALLE_2024-10-26_19.43.17_-_An_app_icon_design_for_a_music-sharing_app_that_encourages_walking_and_passing_interactions_between_users._The_icon_features_two_minimalist_silhouette.webp?ex=671f27f3&is=671dd673&hm=905fefd621ad5fed4d6af8186d39a3ab3b71add5468aa6ec376e302e7921a0a7&))]()
 
 ## 製品概要
 歩いて曲とマッチング、曲を通して人とマッチング
