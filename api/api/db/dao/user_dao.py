@@ -28,7 +28,7 @@ class UserDao:
         home_location:Optional[str] = None,
         bio:Optional[str] = None,
         email:Optional[str] = None,
-        emailVerified:Optional[bool] = None
+        email_verified:Optional[bool] = None
     )->UserModel:
         """
         新規ユーザーを作成します
@@ -45,7 +45,7 @@ class UserDao:
             home_location = home_location,
             bio = bio,
             email = email,
-            emailVerified = emailVerified
+            email_verified = email_verified
         )
 
         self.session.add(user)

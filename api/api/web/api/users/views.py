@@ -48,34 +48,28 @@ async def get_user_profile(uid: str, user_dao: UserDao = Depends()) -> UserModel
     return await user_dao.get(uid=uid)
 
 
-@router.put("/{uid}")
-async def update_user_info(
-    user: UserModel,
-    uid_: str,
-    user_dao: UserDao = Depends(),
-    name_ = None,
-    age_ = None,
-    gender_ = None,
-    listen_genre_id_ = None,
-    home_location_ = None,
-    bio_ = None,
-    email_ = None,
-    emailVerified_ = None
-):
-    """指定されたユーザーの指定された項目を更新する"""
-    if not (target_user := await user_dao.get(uid_)):
-        raise HTTPException(status_code=403, detail="User not found")
 
-    updated_user = await user_dao.update(
-        uid_,
-        # **user.model_dump()
-        name = name_,
-        age = age_,
-        gender = gender_,
-        listen_genre_id = listen_genre_id_,
-        home_location = home_location_,
-        bio = bio_,
-        email = email_,
-        emailVerified = emailVerified_
-        )
-    return updated_user
+@router.put("/{uid}", response_model=users_schemas.UserProfile)
+async def update_user(
+    uid: str,
+    user_update: users_schemas.UserUpdateRequest,
+    user: UserModel = Depends(with_authentication),
+    user_dao: UserDao = Depends()
+) -> UserModel:
+    """
+    指定されたuidのユーザ情報を更新します。
+    アクセスしたユーザは認証済みである必要があります。
+    """
+    if user.uid != uid:
+        raise HTTPException(status_code=403, detail="You do not have permission to update this user.")
+
+    existing_user = await user_dao.get(uid=uid)
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="User not found.")
+
+    update_data = user_update.dict(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(existing_user, key, value)
+
+    await user_dao.update(existing_user)
+    return existing_user

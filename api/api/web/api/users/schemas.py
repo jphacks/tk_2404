@@ -21,7 +21,7 @@ class UserInfo(UserProfile):
     """ユーザの登録情報"""
     uid: str = Field(max_length=128)
     email: str = Field(example="example@exampl.com")
-    emailVerified: bool
+    email_verified: bool
     # TODO : 設定が完了しているか判別するパラメータをつける
     # is_initialid: bool
     created_at: datetime
@@ -29,3 +29,14 @@ class UserInfo(UserProfile):
 
     class Config:
         from_attributes = True
+
+
+class UserUpdateRequest(BaseModel):
+    name: Optional[str]
+    age: Optional[int]
+    gender: Optional[int]
+    listen_genre_id: Optional[int]
+    home_location: Optional[str]
+    bio: Optional[str]
+    email: Optional[str]
+    email_verified: Optional[bool]

@@ -47,7 +47,7 @@ def upgrade() -> None:
         sa.Column("home_location", sa.String(length=32), nullable=True),
         sa.Column("bio", sa.String(length=64), nullable=True),
         sa.Column("email", sa.String(), nullable=False),
-        sa.Column("emailVerified", sa.Boolean(), nullable=False),
+        sa.Column("email_verified", sa.Boolean(), nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint("uid"),

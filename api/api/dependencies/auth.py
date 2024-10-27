@@ -62,7 +62,7 @@ async def with_authentication(
         user = await user_db.create(
             uid=uid,
             email=firebase_user["email"],
-            emailVerified=firebase_user["emailVerified"]
+            email_verified=firebase_user["email_verified"]
         )
     
     logger.info('uid : {0}'.format(uid))
