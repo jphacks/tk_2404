@@ -1,4 +1,4 @@
-# サンプル（プロダクト名）
+# Music-Walk
 
 [![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
 
@@ -35,28 +35,32 @@ GPSを用いて場所に音楽の記録を残す
 音楽業界を盛り上げる
 
 ### 注力したこと（こだわり等）
-* 
-* 
+* ユーザーの追加使いやすいUIを志した。
+* 開発未経験者が多いので、お互いのスキルを高めあうことに注力した。
 
 ## 開発技術
 
 
 ### 活用した技術
-firebese, flutter, fastapi, 
+firebese, flutter, fastapi, Docker,
 
 #### API・データ
-* 
-* 
+* SpotifyAPI
+* firebase
 
 #### フレームワーク・ライブラリ・モジュール
-* 
-* 
+* FastAPI
+* Flutter
+* Poetry
+* Openapi
+* swagger
 
 #### デバイス
-* 
-* 
+* Android
+* iPhone
 
 ### 独自技術
+
 
 
 #### ハッカソンで開発した独自機能・技術
