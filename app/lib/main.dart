@@ -2,9 +2,12 @@ import 'package:app/firebase_options.dart';
 import 'package:app/routers.dart';
 import 'package:app/view_model/firebase_state.dart';
 import 'package:app/view_model/login_view_model.dart';
+import 'package:app/view_model/shopify_callback_state.dart';
+import 'package:app/view_model/signup_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,16 +26,31 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => FirebaseState()),
         ChangeNotifierProvider(
-            create: (context) => LoginViewModel(context.read<FirebaseState>())),
+          create: (context) =>
+              ShopifyCallbackState(context.read<FirebaseState>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginViewModel(context.read<FirebaseState>()),
+        ),
+        ChangeNotifierProvider(
+            create: (context) =>
+                SignUpViewModel(context.read<FirebaseState>())),
       ],
-      child: MaterialApp.router(
-        routerConfig: routers,
-        theme: ThemeData.light().copyWith(
-          materialTapTargetSize: MaterialTapTargetSize.padded,
+      child: ShadApp(
+        theme: ShadThemeData(
+          colorScheme: const ShadSlateColorScheme.dark(),
+          brightness: Brightness.dark,
         ),
-        darkTheme: ThemeData.dark().copyWith(
-          materialTapTargetSize: MaterialTapTargetSize.padded,
-        ),
+        builder: (context, theme) {
+          return ShadApp.router(
+            routerConfig: routers,
+            themeMode: ThemeMode.dark,
+            theme: ShadThemeData(
+              colorScheme: const ShadSlateColorScheme.dark(),
+              brightness: Brightness.dark,
+            ),
+          );
+        },
       ),
     );
   }

@@ -11,11 +11,13 @@ class FirebaseState with ChangeNotifier {
 
   FirebaseState() {
     _initAuth();
+    _errorMessage = '';
   }
 
   User? get user => _user;
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _user != null;
+  bool get isEmailVerified => _user?.emailVerified ?? false;
   String get errorMessage => _errorMessage;
 
   Future<void> _initAuth() async {
@@ -24,6 +26,7 @@ class FirebaseState with ChangeNotifier {
     _auth.authStateChanges().listen((User? user) {
       _user = user;
       _isLoading = false;
+      _errorMessage = '';
       notifyListeners();
     });
   }
@@ -39,20 +42,28 @@ class FirebaseState with ChangeNotifier {
       );
       _user = userCredential.user;
       _errorMessage = '';
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        _errorMessage = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        _errorMessage = 'Wrong password provided for that user.';
-      } else {
-        _errorMessage = e.message ?? 'An unknown error occurred.';
-      }
     } catch (e) {
-      _errorMessage = 'An error occurred: $e';
+      _isLoading = false;
+      rethrow;
     }
-    notifyListeners();
 
-    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> signUp(String email, String password) async {
+    _isLoading = true;
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      _user = userCredential.user;
+      _errorMessage = '';
+    } catch (e) {
+      _isLoading = false;
+      rethrow;
+    }
     notifyListeners();
   }
 
@@ -60,6 +71,23 @@ class FirebaseState with ChangeNotifier {
     await _auth.signOut();
     _user = null;
     _isLoading = false;
+    notifyListeners();
+  }
+
+  void clearErrorMessage() {
+    _errorMessage = '';
+    notifyListeners();
+  }
+
+  Future<User?> reloadUser() async {
+    FirebaseAuth.instance.currentUser!.reload();
+    _user = await _auth.currentUser;
+    notifyListeners();
+    return _user!;
+  }
+
+  void setUser(User user) {
+    _user = user;
     notifyListeners();
   }
 }
