@@ -1,6 +1,6 @@
 # Music-Walk
 
-[![IMAGE ALT TEXT HERE]([https://drive.google.com/file/d/1s1ysRxBXpC9sVxs9JmvIo1OR8ziqOV5H/view?usp=drive_link])]()
+[![IMAGE ALT TEXT HERE]([https://i.gyazo.com/446adc5f6cb65e510248419ed875ff2e.webp])]()
 
 ## 製品概要
 歩いて曲とマッチング、曲を通して人とマッチング
